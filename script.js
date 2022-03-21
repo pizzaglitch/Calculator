@@ -36,10 +36,13 @@ function operate (operator, firstNum, secondNum) {
         return add(firstNum, secondNum);
     } else if (operator == "-") {
         subtract(firstNum, secondNum);
+        return add(firstNum. secondNum);
     } else if (operator == "*") {
         multiply(firstNum, secondNum);
+        return multiply(firstNum, secondNum);
     } else if (operator == "/") {
         divide(firstNum, secondNum);
+        return divide(firstNum, secondNum);s
     }
     
 };
@@ -62,6 +65,9 @@ console.log();
 const clearEntry = document.getElementById('clear');
 clearEntry.addEventListener('click', function(event) {
     display.innerText = '';
+    firstNum = '';
+    secondNum = '';
+    operator = '';
 });
 
 // work in progress below
@@ -79,12 +85,12 @@ clearEntry.addEventListener('click', function(event) {
 function calc(e) {
     if (e.target.className === "number") {
         if (operator === '') {
-            firstNum += e.target.innerText; 
-            display.innerText += e.target.innerText;
+            firstNum += e.target.value; 
+            display.innerText += firstNum;
         } else {
             display.innerText = '';
             secondNum += e.target.value;
-            display.innerText += e.target.innerText;
+            display.innerText += secondNum;
         }
         // display.innerText += e.currentTarget.value;
     }
@@ -103,9 +109,12 @@ ops.forEach(op => {
             result = operate(operator, firstNum, secondNum);
             display.innerText = '';
             display.innerText += result;
-            console.log(operate(operator, firstNum, secondNum));
-             
-            // display.innerText = secondNum;
+            if (display.innerText == result) {
+                firstNum = '';
+                firstNum += display.innerText; 
+                secondNum = '';
+                secondNum += e.target.value;                
+            }
         };
     });
 });
