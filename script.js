@@ -73,14 +73,13 @@ clearEntry.addEventListener('click', function(event) {
 function calc(e) {
     if (e.target.className === "number") {
         if (operator === '') {
-            firstNum = e.target.innerText; 
-            display.innerText += firstNum;
+            firstNum += e.target.innerText; 
+            display.innerText = firstNum;
         } else {
             display.innerText = '';
             secondNum += e.target.innerText;
             display.innerText += secondNum;
         }
-        // display.innerText += e.currentTarget.value;
     }
 }
 
