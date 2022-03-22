@@ -36,7 +36,7 @@ function operate (operator, firstNum, secondNum) {
         return add(firstNum, secondNum);
     } else if (operator == "-") {
         subtract(firstNum, secondNum);
-        return add(firstNum. secondNum);
+        return subtract(firstNum, secondNum);
     } else if (operator == "*") {
         multiply(firstNum, secondNum);
         return multiply(firstNum, secondNum);
@@ -70,26 +70,14 @@ clearEntry.addEventListener('click', function(event) {
     operator = '';
 });
 
-// work in progress below
-//working calc function
-// const addition = document.getElementById('addition');
-// const subtraction = document.getElementById('subtraction');
-// const multiplication = document.getElementById('multiplication');
-// const division = document.getElementById('division');
-// const equals = document.getElementById('equals');
-// const percentage = document.getElementById('percentage');
-// const plusMinus = document.getElementById('plusMinus');
-
-
-
 function calc(e) {
     if (e.target.className === "number") {
         if (operator === '') {
-            firstNum += e.target.value; 
+            firstNum = e.target.innerText; 
             display.innerText += firstNum;
         } else {
             display.innerText = '';
-            secondNum += e.target.value;
+            secondNum += e.target.innerText;
             display.innerText += secondNum;
         }
         // display.innerText += e.currentTarget.value;
@@ -105,20 +93,30 @@ ops.forEach(op => {
             console.log(firstNum);
             console.log(operator);
         } else {
-            console.log(secondNum);
             result = operate(operator, firstNum, secondNum);
+            console.log(secondNum);
+            console.log(result);
             display.innerText = '';
             display.innerText += result;
-            if (display.innerText == result) {
+        } 
+        if (display.innerText == result) {
                 firstNum = '';
-                firstNum += display.innerText; 
+                firstNum += result; 
                 secondNum = '';
-                secondNum += e.target.value;                
-            }
+                secondNum += e.target.value; 
         };
     });
 });
 
+// work in progress below
+//working calc function
+// const addition = document.getElementById('addition');
+// const subtraction = document.getElementById('subtraction');
+// const multiplication = document.getElementById('multiplication');
+// const division = document.getElementById('division');
+// const equals = document.getElementById('equals');
+// const percentage = document.getElementById('percentage');
+// const plusMinus = document.getElementById('plusMinus');
 
 // function calc(e) {
 //     const key = e.target; 
