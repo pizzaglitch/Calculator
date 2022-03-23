@@ -1,10 +1,11 @@
 const display = document.getElementById('display');
 const operators = document.querySelectorAll("#plusMinus, #percentage, #addition, #subtraction, #multiplication, #division, #equals");
+const plusMinusButton = document.querySelector("#plusMinus"); 
+
 let firstNum = '';
 let secondNum = '';
 let operator = '';
 let result = operate(operator);
-
 //add function
 const add = function add (firstNum, secondNum) {
     return (parseInt(firstNum) + parseInt(secondNum));
@@ -29,6 +30,20 @@ const divide = function divide (firstNum, secondNum) {
 };
 console.log(divide(2,5));
 
+//positive to negative and vice-versa
+const reverseNum = function reverseNum (firstNum, secondNum) {
+    // return (parseInt(firstNum * -1)) (parseInt(secondNum * -1));
+    if (firstNum > 0) {
+        return firstNum * -1;
+    } else if (secondNum > 0) {
+        return (secondNum * -1);
+    } else if (firstNum < 0) {
+        return (firstNum * -1);
+    } else if (secondNum < 0) {
+        return (secondNum * -1);
+    }
+}
+console.log(reverseNum(-5,-2));
 //operator function for calculator
 function operate (operator, firstNum, secondNum) {
     if (operator == "+") {
@@ -43,10 +58,13 @@ function operate (operator, firstNum, secondNum) {
     } else if (operator == "/") {
         divide(firstNum, secondNum);
         return divide(firstNum, secondNum);s
+    //might not need +/- function as part of operator function. inverses final result when I hit enter
+    //  } else if (operator == "+/-") {
+    //     reverseNum(firstNum, secondNum);
+    //     return reverseNum(firstNum, secondNum);
     }
     
 };
-console.log(operate("+"));
 
 //applies click listeners to all buttons and runs calc(e) function on click
 const buttons = document.querySelectorAll('button');
@@ -73,12 +91,13 @@ clearEntry.addEventListener('click', function(event) {
 function calc(e) {
     if (e.target.className === "number") {
         if (operator === '') {
+            
             firstNum += e.target.innerText; 
             display.innerText = firstNum;
         } else {
             display.innerText = '';
             secondNum += e.target.innerText;
-            display.innerText += secondNum;
+            display.innerText = secondNum;
         }
     }
 }
@@ -91,21 +110,41 @@ ops.forEach(op => {
             operator = e.target.innerText;
             console.log(firstNum);
             console.log(operator);
-        } else {
-            result = operate(operator, firstNum, secondNum);
+        } if (e.target == plusMinusButton) {
+        //     console.log(firstNum);
+        //     console.log(secondNum);
+        newSwitch = reverseNum(display.innerText);
+        //  console.log(result);
+        //  firstNum = result;
+          console.log(firstNum);
+        // display.innerText = result.innerText;
+        display.innerText = '';
+        display.innerText = newSwitch; 
+        
+        } else if (e.target.innerText == "=") {
+            result = operate(operator, firstNum, secondNum)
+            console.log(firstNum);
             console.log(secondNum);
             console.log(result);
             display.innerText = '';
             display.innerText += result;
+            if (secondNum == '' && e.target.innerText == '=') {
+                display.innerText = firstNum;
+            }
         } 
+        
         if (display.innerText == result) {
                 firstNum = '';
                 firstNum += result; 
                 secondNum = '';
                 secondNum += e.target.value; 
         };
+        
     });
 });
+
+
+plusMinusButton.addEventListener("click", reverseNum);
 
 // work in progress below
 //working calc function
