@@ -89,10 +89,13 @@ clearEntry.addEventListener('click', function(event) {
 });
 
 function calc(e) {
+
     if (e.target.className === "number") {
+     
         if (operator === '') {
-            
-            firstNum += e.target.innerText; 
+           
+            firstNum += e.target.innerText;
+
             display.innerText = firstNum;
         } else {
             display.innerText = '';
@@ -132,7 +135,9 @@ ops.forEach(op => {
                 display.innerText = firstNum;
             }
         } 
-        
+        if (display.innerText == '0') {
+            firstNum = 0;
+        }
         if (display.innerText == result) {
                 firstNum = '';
                 firstNum += result; 
