@@ -8,25 +8,25 @@ let operator = '';
 let result = operate(operator);
 //add function
 const add = function add (firstNum, secondNum) {
-    return (parseInt(firstNum) + parseInt(secondNum));
+    return (parseFloat(firstNum) + parseFloat(secondNum));
 };
 console.log(add(2,5));
 
 //subtract 
 const subtract = function subtract (firstNum, secondNum) {
-    return (parseInt(firstNum) - parseInt(secondNum));
+    return (parseFloat(firstNum) - parseFloat(secondNum));
 };
 console.log(subtract(2,5));
 
 //multiply
 const multiply = function multiply (firstNum, secondNum) {
-    return (parseInt(firstNum) * parseInt(secondNum));
+    return (parseFloat(firstNum) * parseFloat(secondNum));
 };
 console.log(multiply(2,5));
 
 //divide 
 const divide = function divide (firstNum, secondNum) {
-    return (parseInt(firstNum) / parseInt(secondNum));
+    return (parseFloat(firstNum) / parseFloat(secondNum));
 };
 console.log(divide(2,5));
 
@@ -113,7 +113,7 @@ ops.forEach(op => {
             operator = e.target.innerText;
             console.log(firstNum);
             console.log(operator);
-        } if (e.target == plusMinusButton) {
+        } if (e.target == plusMinusButton && display.innerText !== "0") {
         //     console.log(firstNum);
         //     console.log(secondNum);
         newSwitch = reverseNum(display.innerText);
