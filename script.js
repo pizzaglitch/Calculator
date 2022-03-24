@@ -82,22 +82,52 @@ console.log();
 // clears display with CE (Clear Entry) button click
 const clearEntry = document.getElementById('clear');
 clearEntry.addEventListener('click', function(event) {
-    display.innerText = '';
+    display.innerText = '0';
     firstNum = '';
     secondNum = '';
     operator = '';
 });
 
+//event listener for decimal click, doesn't allow more than one decimal 
+const decimal = document.getElementById('decimal');
+decimal.addEventListener('click', function(event) {
+    if (!firstNum.includes(".") && display.innerText.charAt(0) == "0") {
+        firstNum += "0" + decimal.innerText;
+        display.innerText = firstNum;
+       
+    } 
+    if (!firstNum.includes(".") && !display.innerText.charAt(0) == "0") {
+        firstNum += decimal.innerText;
+        display.innerText = firstNum;
+    }
+    else if (!secondNum.includes(".")) {
+        secondNum += decimal.innerText;
+        display.innerText = secondNum;
+    }
+})
+
+//adds target's innerText to firstNum and secondNum 
+const zero = document.querySelector('button[value="0"]');
+// zero.click(function (event) {
+//     if (display.innerText.charAt(0) == "0") {
+//     e.stopPropagation();
+//     }
+// })
+
 function calc(e) {
-
-    if (e.target.className === "number") {
-     
+    if (e.target.className === "number" || e.target.getElementById === "decimal") {
         if (operator === '') {
-           
             firstNum += e.target.innerText;
-
             display.innerText = firstNum;
-        } else {
+        }
+        
+        //stop repeating zeros
+        // if (zero.clicked == true && display.innerText.charAt(0) == "0") {
+        //     return;
+        // }
+        
+        // }
+        else {
             display.innerText = '';
             secondNum += e.target.innerText;
             display.innerText = secondNum;
@@ -105,25 +135,23 @@ function calc(e) {
     }
 }
 
+//adds event listeners for clicks to all operator buttons
 ops = Array.prototype.slice.call(operators,0);
-
 ops.forEach(op => {
     op.addEventListener("click", e => {
         if (e.target.innerText !== "=") {
             operator = e.target.innerText;
             console.log(firstNum);
             console.log(operator);
-        } if (e.target == plusMinusButton && display.innerText !== "0") {
-        //     console.log(firstNum);
-        //     console.log(secondNum);
+        } 
+        //plusMinus if statement to validate +/- button
+        if (e.target == plusMinusButton && display.innerText !== "0") 
+        {
         newSwitch = reverseNum(display.innerText);
-        //  console.log(result);
-        //  firstNum = result;
           console.log(firstNum);
-        // display.innerText = result.innerText;
         display.innerText = '';
         display.innerText = newSwitch; 
-        
+        //creates functional equals button, runs operator function, displays result 
         } else if (e.target.innerText == "=") {
             result = operate(operator, firstNum, secondNum)
             console.log(firstNum);
@@ -135,15 +163,18 @@ ops.forEach(op => {
                 display.innerText = firstNum;
             }
         } 
-        if (display.innerText == '0') {
-            firstNum = 0;
-        }
+        //default value for display and firstNum set to zero 
+        // if (display.innerText == '0') {
+        //     firstNum = 0;
+        // }
+
         if (display.innerText == result) {
                 firstNum = '';
                 firstNum += result; 
                 secondNum = '';
                 secondNum += e.target.value; 
         };
+        
         
     });
 });
