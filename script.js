@@ -88,7 +88,7 @@ clearEntry.addEventListener('click', function(event) {
     operator = '';
 });
 
-//event listener for decimal click, doesn't allow more than one decimal 
+//event listener for decimal click, doesn't allow more than one decimal (THIS WORKS!)
 const decimal = document.getElementById('decimal');
 decimal.addEventListener('click', function(event) {
     if (!firstNum.includes(".") && display.innerText.charAt(0) == "0") {
@@ -100,10 +100,10 @@ decimal.addEventListener('click', function(event) {
         firstNum += decimal.innerText;
         display.innerText = firstNum;
     }
-    else if (!secondNum.includes(".")) {
+    else if (operator !== '' && !secondNum.includes(".")) {
         secondNum += decimal.innerText;
-        display.innerText = secondNum;
-    }
+         display.innerText = secondNum;
+     }
 })
 
 //adds target's innerText to firstNum and secondNum 
