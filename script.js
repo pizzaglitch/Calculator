@@ -1,6 +1,12 @@
+/*to do 3.25 
+1) if decimals repeat >3 times, round up (goal: stop repeating decimals that extend for too long)
+2) create function for percentageButton (toPercentage)  
+*/
+
 const display = document.getElementById('display');
 const operators = document.querySelectorAll("#plusMinus, #percentage, #addition, #subtraction, #multiplication, #division, #equals");
 const plusMinusButton = document.querySelector("#plusMinus"); 
+const percentageButton = document.querySelector("#percentage");
 
 let firstNum = '';
 let secondNum = '';
@@ -30,7 +36,7 @@ const divide = function divide (firstNum, secondNum) {
 };
 console.log(divide(2,5));
 
-//positive to negative and vice-versa
+//positive to negative and vice-versa used in plusMinusButton and ran in operator function
 const reverseNum = function reverseNum (firstNum, secondNum) {
     // return (parseInt(firstNum * -1)) (parseInt(secondNum * -1));
     if (firstNum > 0) {
@@ -44,6 +50,13 @@ const reverseNum = function reverseNum (firstNum, secondNum) {
     }
 }
 console.log(reverseNum(-5,-2));
+
+//convert displayed value to percentage on percentage click 
+const toPercentage = function toPercentage (firstNum) {
+    return Math.round(firstNum * 100)/100;
+}
+
+
 //operator function for calculator
 function operate (operator, firstNum, secondNum) {
     if (operator == "+") {
@@ -57,13 +70,8 @@ function operate (operator, firstNum, secondNum) {
         return multiply(firstNum, secondNum);
     } else if (operator == "/") {
         divide(firstNum, secondNum);
-        return divide(firstNum, secondNum);s
-    //might not need +/- function as part of operator function. inverses final result when I hit enter
-    //  } else if (operator == "+/-") {
-    //     reverseNum(firstNum, secondNum);
-    //     return reverseNum(firstNum, secondNum);
+        return divide(firstNum, secondNum);
     }
-    
 };
 
 //applies click listeners to all buttons and runs calc(e) function on click
@@ -94,40 +102,32 @@ decimal.addEventListener('click', function(event) {
     if (!firstNum.includes(".") && display.innerText.charAt(0) == "0") {
         firstNum += "0" + decimal.innerText;
         display.innerText = firstNum;
-       
     } 
     if (!firstNum.includes(".") && !display.innerText.charAt(0) == "0") {
         firstNum += decimal.innerText;
         display.innerText = firstNum;
     }
+    if (operator !== '' && firstNum !== '' && secondNum == '') {
+        secondNum += "0" + decimal.innerText;
+        display.innerText = secondNum;
+    }
+    //this might not do anything
     else if (operator !== '' && !secondNum.includes(".")) {
         secondNum += decimal.innerText;
          display.innerText = secondNum;
      }
 })
 
-//adds target's innerText to firstNum and secondNum 
-const zero = document.querySelector('button[value="0"]');
-// zero.click(function (event) {
-//     if (display.innerText.charAt(0) == "0") {
-//     e.stopPropagation();
-//     }
-// })
+//rounds up or down displayed product if result has two or more of the same integer
+// function roundUpOrDown() {
+// }
 
 function calc(e) {
     if (e.target.className === "number" || e.target.getElementById === "decimal") {
         if (operator === '') {
             firstNum += e.target.innerText;
             display.innerText = firstNum;
-        }
-        
-        //stop repeating zeros
-        // if (zero.clicked == true && display.innerText.charAt(0) == "0") {
-        //     return;
-        // }
-        
-        // }
-        else {
+        } else {
             display.innerText = '';
             secondNum += e.target.innerText;
             display.innerText = secondNum;
@@ -145,42 +145,73 @@ ops.forEach(op => {
             console.log(operator);
         } 
         //plusMinus if statement to validate +/- button
-        if (e.target == plusMinusButton && display.innerText !== "0") 
-        {
+        if (e.target == plusMinusButton && display.innerText !== "0") {
         newSwitch = reverseNum(display.innerText);
-          console.log(firstNum);
+        console.log(firstNum);
         display.innerText = '';
         display.innerText = newSwitch; 
-        //creates functional equals button, runs operator function, displays result 
-        } else if (e.target.innerText == "=") {
-            result = operate(operator, firstNum, secondNum)
-            console.log(firstNum);
-            console.log(secondNum);
+        
+        //percentage if statement to validate % button 
+        if (e.target == percentageButton && display.innerText !== "0") {
+        let newPercentage = toPercentage(display.innerText); 
+        display.innerText = '';
+        display.innerText = newPercentage; 
+        }
+        //runs operator function on all operator buttons 
+        }  
+        if (e.target.innerText == "+" && secondNum !== "" || secondNum == ".") {
+            result = operate(operator, firstNum, secondNum);
+            console.log(secondNum)
             console.log(result);
             display.innerText = '';
             display.innerText += result;
+        }
+        if (e.target.innerText == "-" && secondNum !== "" || secondNum == ".") {
+            result = operate(operator, firstNum, secondNum);
+            console.log(secondNum)
+            console.log(result);
+            display.innerText = '';
+            display.innerText += result;
+        }
+        if (e.target.innerText == "*" && secondNum !== "" || secondNum == ".") {
+            result = operate(operator, firstNum, secondNum);
+            console.log(secondNum)
+            console.log(result);
+            display.innerText = '';
+            display.innerText += result;
+        }
+        if (e.target.innerText == "/" && secondNum !== "" || secondNum == ".") {
+            result = operate(operator, firstNum, secondNum);
+            console.log(secondNum)
+            console.log(result);
+            display.innerText = '';
+            display.innerText += result;
+        }
+        
+        //creates functional equals button, runs operator function, displays result 
+        if (e.target.innerText == "=") {
+            result = operate(operator, firstNum, secondNum);
+            console.log(secondNum)
+            console.log(result);
+            display.innerText = '';
+            display.innerText += result;
+            
             if (secondNum == '' && e.target.innerText == '=') {
                 display.innerText = firstNum;
-            }
+            } 
         } 
-        //default value for display and firstNum set to zero 
-        // if (display.innerText == '0') {
-        //     firstNum = 0;
-        // }
-
+    
         if (display.innerText == result) {
                 firstNum = '';
                 firstNum += result; 
                 secondNum = '';
                 secondNum += e.target.value; 
         };
-        
-        
     });
 });
 
 
-plusMinusButton.addEventListener("click", reverseNum);
+// plusMinusButton.addEventListener("click", reverseNum);
 
 // work in progress below
 //working calc function
