@@ -1,12 +1,13 @@
-/*to do 3.25 
-1) if decimals repeat >3 times, round up (goal: stop repeating decimals that extend for too long)
-2) create function for percentageButton (toPercentage)  
+/*to do 3/25 
+1) if decimals repeat >3 times, round up to first decimal number  (goal: stop repeating decimals that extend for too long)
+2) create function for percentageButton (toPercentage)  (Done)
 */
 
 const display = document.getElementById('display');
 const operators = document.querySelectorAll("#plusMinus, #percentage, #addition, #subtraction, #multiplication, #division, #equals");
 const plusMinusButton = document.querySelector("#plusMinus"); 
 const percentageButton = document.querySelector("#percentage");
+const displayResult = display.innerText;
 
 let firstNum = '';
 let secondNum = '';
@@ -52,11 +53,17 @@ const reverseNum = function reverseNum (firstNum, secondNum) {
 console.log(reverseNum(-5,-2));
 
 //convert displayed value to percentage on percentage click 
-const toPercentage = function toPercentage (firstNum) {
-    return Math.round(firstNum * 100)/100;
+//On click, move decimal two places to the left. This happens on each click. 
+//If value extends past the display box, add "e-[x]" where e is value and x is amount of spaces (look into e-x calc term)
+//this rounds up the result to the nearest tenth. Somehow I need to get this to run for my actual operator functions to avoid returning results with multiple repeated decimal numbers (i.e. "4.9998888")
+//this rounds a result to the second decimal place
+// const toPercentage = function toPercentage (displayResult) {
+//     return Math.round((displayResult * 100)/100;
+// }
+
+const toPercentage = function toPercentage (displayResult) {
+    return (displayResult / 100);
 }
-
-
 //operator function for calculator
 function operate (operator, firstNum, secondNum) {
     if (operator == "+") {
@@ -118,9 +125,11 @@ decimal.addEventListener('click', function(event) {
      }
 })
 
-//rounds up or down displayed product if result has two or more of the same integer
+/*rounds up or down displayed product if result has two or more of the same integer
+
 // function roundUpOrDown() {
-// }
+}
+*/ 
 
 function calc(e) {
     if (e.target.className === "number" || e.target.getElementById === "decimal") {
@@ -150,15 +159,16 @@ ops.forEach(op => {
         console.log(firstNum);
         display.innerText = '';
         display.innerText = newSwitch; 
-        
+        }
         //percentage if statement to validate % button 
         if (e.target == percentageButton && display.innerText !== "0") {
-        let newPercentage = toPercentage(display.innerText); 
+        newPercent = toPercentage(display.innerText);
+        console.log(newPercent);
         display.innerText = '';
-        display.innerText = newPercentage; 
+        display.innerText = newPercent;
         }
         //runs operator function on all operator buttons 
-        }  
+          
         if (e.target.innerText == "+" && secondNum !== "" || secondNum == ".") {
             result = operate(operator, firstNum, secondNum);
             console.log(secondNum)
@@ -187,7 +197,6 @@ ops.forEach(op => {
             display.innerText = '';
             display.innerText += result;
         }
-        
         //creates functional equals button, runs operator function, displays result 
         if (e.target.innerText == "=") {
             result = operate(operator, firstNum, secondNum);
@@ -200,7 +209,6 @@ ops.forEach(op => {
                 display.innerText = firstNum;
             } 
         } 
-    
         if (display.innerText == result) {
                 firstNum = '';
                 firstNum += result; 
