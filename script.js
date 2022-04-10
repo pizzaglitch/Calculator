@@ -1,13 +1,15 @@
 /*to do 3/25 
 1) if decimals repeat >3 times, round up to first decimal number  (goal: stop repeating decimals that extend for too long)
 2) create function for percentageButton (toPercentage)  (Done)
+3) returns "undefined" on negative secondNum
+
 */
 
 const display = document.getElementById('display');
 const operators = document.querySelectorAll("#plusMinus, #percentage, #addition, #subtraction, #multiplication, #division, #equals");
 const plusMinusButton = document.querySelector("#plusMinus"); 
 const percentageButton = document.querySelector("#percentage");
-const displayResult = display.innerText;
+const displayResult = display.innerText;    
 
 let firstNum = '';
 let secondNum = '';
@@ -41,7 +43,7 @@ console.log(divide(2,5));
 const reverseNum = function reverseNum (firstNum, secondNum) {
     // return (parseInt(firstNum * -1)) (parseInt(secondNum * -1));
     if (firstNum > 0) {
-        return firstNum * -1;
+        return (firstNum * -1);
     } else if (secondNum > 0) {
         return (secondNum * -1);
     } else if (firstNum < 0) {
@@ -50,7 +52,7 @@ const reverseNum = function reverseNum (firstNum, secondNum) {
         return (secondNum * -1);
     }
 }
-console.log(reverseNum(-5,-2));
+console.log(reverseNum(10));
 
 //convert displayed value to percentage on percentage click 
 //On click, move decimal two places to the left. This happens on each click. 
@@ -136,6 +138,7 @@ function calc(e) {
         if (operator === '') {
             firstNum += e.target.innerText;
             display.innerText = firstNum;
+    
         } else {
             display.innerText = '';
             secondNum += e.target.innerText;
@@ -148,17 +151,25 @@ function calc(e) {
 ops = Array.prototype.slice.call(operators,0);
 ops.forEach(op => {
     op.addEventListener("click", e => {
-        if (e.target.innerText !== "=") {
+        if (e.target.innerText !== "=" && operator == '' && firstNum !== '') {
             operator = e.target.innerText;
             console.log(firstNum);
             console.log(operator);
         } 
+
         //plusMinus if statement to validate +/- button
-        if (e.target == plusMinusButton && display.innerText !== "0") {
-        newSwitch = reverseNum(display.innerText);
+        if (e.target == plusMinusButton && firstNum !== '') {
         console.log(firstNum);
+        firstNum = reverseNum(firstNum)
         display.innerText = '';
-        display.innerText = newSwitch; 
+        display.innerText = firstNum; 
+        }
+        // work in progress to solve secondNum to negative without running operator function
+        if (e.target == plusMinusButton && secondNum !== '') {
+        secondNum = reverseNum(secondNum);
+        console.log(secondNum);
+        display.innerText = '';
+        display.innerText = secondNum;
         }
         //percentage if statement to validate % button 
         if (e.target == percentageButton && display.innerText !== "0") {
@@ -167,21 +178,25 @@ ops.forEach(op => {
         display.innerText = '';
         display.innerText = newPercent;
         }
-        //runs operator function on all operator buttons 
-          
+
+        //runs operator function on all operator buttons, changes operator value to operator clicked
         if (e.target.innerText == "+" && secondNum !== "" || secondNum == ".") {
             result = operate(operator, firstNum, secondNum);
             console.log(secondNum)
             console.log(result);
             display.innerText = '';
             display.innerText += result;
+            operator = '+';
         }
+        
         if (e.target.innerText == "-" && secondNum !== "" || secondNum == ".") {
             result = operate(operator, firstNum, secondNum);
             console.log(secondNum)
             console.log(result);
             display.innerText = '';
             display.innerText += result;
+            operator = "-"; 
+
         }
         if (e.target.innerText == "*" && secondNum !== "" || secondNum == ".") {
             result = operate(operator, firstNum, secondNum);
@@ -189,6 +204,8 @@ ops.forEach(op => {
             console.log(result);
             display.innerText = '';
             display.innerText += result;
+            operator = "*";
+            
         }
         if (e.target.innerText == "/" && secondNum !== "" || secondNum == ".") {
             result = operate(operator, firstNum, secondNum);
@@ -196,12 +213,12 @@ ops.forEach(op => {
             console.log(result);
             display.innerText = '';
             display.innerText += result;
+            operator = "/";
         }
+        
         //creates functional equals button, runs operator function, displays result 
         if (e.target.innerText == "=") {
             result = operate(operator, firstNum, secondNum);
-            console.log(secondNum)
-            console.log(result);
             display.innerText = '';
             display.innerText += result;
             
@@ -209,12 +226,18 @@ ops.forEach(op => {
                 display.innerText = firstNum;
             } 
         } 
+        //prevents secondNum from continuously becoming what's clicked (numbers keep getting added to secondNum w/o)
         if (display.innerText == result) {
                 firstNum = '';
                 firstNum += result; 
                 secondNum = '';
                 secondNum += e.target.value; 
         };
+        //runs operate function if target is an operator and an operator is already selected
+        // if (firstNum !== '' && secondNum !== '' && operator.innerText !== '' && e.target.innerText == '+' || e.target.innerText == '-' || e.target.innerText == '*' || e.target.innerText == '/') {
+            
+                  
+        // }
     });
 });
 
