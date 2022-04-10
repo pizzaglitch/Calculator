@@ -1,7 +1,9 @@
 /*to do 3/25 
 1) if decimals repeat >3 times, round up to first decimal number  (goal: stop repeating decimals that extend for too long)
 2) create function for percentageButton (toPercentage)  (Done)
-3) returns "undefined" on negative secondNum
+3) returns "undefined" on negative secondNum 
+4) doesn't always work with negative numbers
+5) doesn't always update the operator 
 
 */
 
@@ -156,7 +158,11 @@ ops.forEach(op => {
             console.log(firstNum);
             console.log(operator);
         } 
-
+        
+        //essential if statement. Clears operator upon running operator function (if display == sum & firstnum == sum)
+        if (firstNum == result && display.innerText == result) {
+            operator = '';
+        }
         //plusMinus if statement to validate +/- button
         if (e.target == plusMinusButton && firstNum !== '') {
         console.log(firstNum);
