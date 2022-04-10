@@ -3,7 +3,6 @@
 2) create function for percentageButton (toPercentage)  (Done)
 3) returns "undefined" on negative secondNum 
 4) doesn't always work with negative numbers
-5) doesn't always update the operator 
 
 */
 
@@ -153,7 +152,7 @@ function calc(e) {
 ops = Array.prototype.slice.call(operators,0);
 ops.forEach(op => {
     op.addEventListener("click", e => {
-        if (e.target.innerText !== "=" && operator == '' && firstNum !== '') {
+        if (e.target.innerText !== "=" && e.target.innerText !== "+/-" && operator == '' && firstNum !== '') {
             operator = e.target.innerText;
             console.log(firstNum);
             console.log(operator);
@@ -163,15 +162,15 @@ ops.forEach(op => {
         if (firstNum == result && display.innerText == result) {
             operator = '';
         }
-        //plusMinus if statement to validate +/- button
-        if (e.target == plusMinusButton && firstNum !== '') {
+        //plusMinus if statement to validate +/- button and reset operator after executing
+        if (e.target == plusMinusButton && display.innerText == firstNum) {
         console.log(firstNum);
         firstNum = reverseNum(firstNum)
         display.innerText = '';
-        display.innerText = firstNum; 
+        display.innerText = firstNum;
         }
         // work in progress to solve secondNum to negative without running operator function
-        if (e.target == plusMinusButton && secondNum !== '') {
+        if (e.target == plusMinusButton && display.innerText == secondNum) {
         secondNum = reverseNum(secondNum);
         console.log(secondNum);
         display.innerText = '';
