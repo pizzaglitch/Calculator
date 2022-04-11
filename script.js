@@ -1,9 +1,9 @@
 /*to do 3/25 
 1) if decimals repeat >3 times, round up to first decimal number  (goal: stop repeating decimals that extend for too long)
 2) create function for percentageButton (toPercentage)  (Done)
-3) returns "undefined" on negative secondNum 
-4) doesn't always work with negative numbers
-
+3) returns "undefined" on negative secondNum (fixed)
+4) doesn't always work with negative numbers (fixed)
+5) need to round up or down numbers to avoid having a hundred zeros on certain answers (see #1)
 */
 
 const display = document.getElementById('display');
