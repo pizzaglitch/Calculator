@@ -4,6 +4,7 @@
 3) returns "undefined" on negative secondNum (fixed)
 4) doesn't always work with negative numbers (fixed)
 5) need to round up or down numbers to avoid having a hundred zeros on certain answers (see #1)
+    Ex: 8.96 / 5 = 1.7920000000000003
 */
 
 const display = document.getElementById('display');
@@ -18,25 +19,25 @@ let operator = '';
 let result = operate(operator);
 //add function
 const add = function add (firstNum, secondNum) {
-    return (parseFloat(firstNum) + parseFloat(secondNum));
+    return Math.round((parseFloat(firstNum) + parseFloat(secondNum)) * 1000) / 1000;
 };
 console.log(add(2,5));
 
 //subtract 
 const subtract = function subtract (firstNum, secondNum) {
-    return (parseFloat(firstNum) - parseFloat(secondNum));
+    return Math.round((parseFloat(firstNum) - parseFloat(secondNum)) * 1000) / 1000;
 };
 console.log(subtract(2,5));
 
 //multiply
 const multiply = function multiply (firstNum, secondNum) {
-    return (parseFloat(firstNum) * parseFloat(secondNum));
+    return Math.round((parseFloat(firstNum) * parseFloat(secondNum)) * 1000) / 1000;
 };
 console.log(multiply(2,5));
 
 //divide 
 const divide = function divide (firstNum, secondNum) {
-    return (parseFloat(firstNum) / parseFloat(secondNum));
+    return Math.round((parseFloat(firstNum) / parseFloat(secondNum)) * 1000) / 1000;
 };
 console.log(divide(2,5));
 
