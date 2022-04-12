@@ -4,7 +4,8 @@
 3) returns "undefined" on negative secondNum (fixed)
 4) doesn't always work with negative numbers (fixed)
 5) need to round up or down numbers to avoid having a hundred zeros on certain answers (see #1)
-    Ex: 8.96 / 5 = 1.7920000000000003
+    Ex: 8.96 / 5 = 1.7920000000000003 (fixed)
+6) changing operator midway through calc doesn't work 
 */
 
 const display = document.getElementById('display');
@@ -162,6 +163,10 @@ ops.forEach(op => {
         //essential if statement. Clears operator upon running operator function (if display == sum & firstnum == sum)
         if (firstNum == result && display.innerText == result) {
             operator = '';
+        }
+        //updates operator if changed midway through calculation
+        if (display.innerText == firstNum) {
+            operator = e.target.innerText;
         }
         //plusMinus if statement to validate +/- button and reset operator after executing
         if (e.target == plusMinusButton && display.innerText == firstNum) {
