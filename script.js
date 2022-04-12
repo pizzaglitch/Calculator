@@ -5,7 +5,10 @@
 4) doesn't always work with negative numbers (fixed)
 5) need to round up or down numbers to avoid having a hundred zeros on certain answers (see #1)
     Ex: 8.96 / 5 = 1.7920000000000003 (fixed)
-6) changing operator midway through calc doesn't work 
+6) changing operator midway through calc doesn't work (fixed)
+7) 9 / 8 = and then .3 = yields 3.75 instead of .3 [If display.innerText == result & a number is selected, no operator is chosen and equals button is pressed, display updates to selected number]
+8) you can input numbers longer than the dialog box extends (it extends past the display window) [Solution: Limit input to 19 characters]
+9) If input is max chars (19) and I click to "+/-" it rounds up the value 
 */
 
 const display = document.getElementById('display');
@@ -57,18 +60,13 @@ const reverseNum = function reverseNum (firstNum, secondNum) {
 }
 console.log(reverseNum(10));
 
-//convert displayed value to percentage on percentage click 
-//On click, move decimal two places to the left. This happens on each click. 
-//If value extends past the display box, add "e-[x]" where e is value and x is amount of spaces (look into e-x calc term)
-//this rounds up the result to the nearest tenth. Somehow I need to get this to run for my actual operator functions to avoid returning results with multiple repeated decimal numbers (i.e. "4.9998888")
-//this rounds a result to the second decimal place
-// const toPercentage = function toPercentage (displayResult) {
-//     return Math.round((displayResult * 100)/100;
-// }
-
+//to percentage button function
 const toPercentage = function toPercentage (displayResult) {
     return (displayResult / 100);
 }
+
+
+
 //operator function for calculator
 function operate (operator, firstNum, secondNum) {
     if (operator == "+") {
@@ -85,6 +83,17 @@ function operate (operator, firstNum, secondNum) {
         return divide(firstNum, secondNum);
     }
 };
+//limit characters in display to 18
+let maxChars = 18;
+function limitCharInDisplay(e) {
+    if (firstNum.length > maxChars) {
+        display.innerText = display.innerText.substring(0, maxChars);
+        firstNum = display.innerText;
+    } else if (secondNum > maxChars) {
+        display.innerText = display.innerText.substring(0, maxChars);
+        secondNum = display.innerText;
+    }
+}
 
 //applies click listeners to all buttons and runs calc(e) function on click
 const buttons = document.querySelectorAll('button');
@@ -92,10 +101,12 @@ for (i=0; i < buttons.length; i++) {
     buttons[i].addEventListener('click', function(e) {
         if (e.target.matches("button")){
             calc(e);
+            limitCharInDisplay(e);
         } else if (e.target.matches("equals")) {
             operate(operator);
         }
     })
+    
 };
 console.log();
 
@@ -130,18 +141,11 @@ decimal.addEventListener('click', function(event) {
      }
 })
 
-/*rounds up or down displayed product if result has two or more of the same integer
-
-// function roundUpOrDown() {
-}
-*/ 
-
 function calc(e) {
     if (e.target.className === "number" || e.target.getElementById === "decimal") {
         if (operator === '') {
             firstNum += e.target.innerText;
             display.innerText = firstNum;
-    
         } else {
             display.innerText = '';
             secondNum += e.target.innerText;
@@ -164,6 +168,7 @@ ops.forEach(op => {
         if (firstNum == result && display.innerText == result) {
             operator = '';
         }
+
         //updates operator if changed midway through calculation
         if (display.innerText == firstNum) {
             operator = e.target.innerText;
@@ -232,6 +237,8 @@ ops.forEach(op => {
             result = operate(operator, firstNum, secondNum);
             display.innerText = '';
             display.innerText += result;
+            //clears operator if you hit the '=' button
+            // operator = '';
             
             if (secondNum == '' && e.target.innerText == '=') {
                 display.innerText = firstNum;
