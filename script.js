@@ -92,6 +92,9 @@ function limitCharInDisplay(e) {
     } else if (secondNum > maxChars) {
         display.innerText = display.innerText.substring(0, maxChars);
         secondNum = display.innerText;
+    } else if (result > maxChars) {
+        display.innerText = display.innerText.substring(0, maxChars);
+        result = display.innerText;
     }
 }
 
