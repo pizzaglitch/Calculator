@@ -6,8 +6,8 @@
 5) need to round up or down numbers to avoid having a hundred zeros on certain answers (see #1)
     Ex: 8.96 / 5 = 1.7920000000000003 (fixed)
 6) changing operator midway through calc doesn't work (fixed)
-7) 9 / 8 = and then .3 = yields 3.75 instead of .3 [If display.innerText == result & a number is selected, no operator is chosen and equals button is pressed, display updates to selected number]
-8) you can input numbers longer than the dialog box extends (it extends past the display window) [Solution: Limit input to 19 characters]
+7) 9 / 8 = and then .3 = yields 3.75 instead of .3 [If display.innerText == result & a number is selected, no operator is chosen and equals button is pressed, display updates to selected number] (fixed)
+8) you can input numbers longer than the dialog box extends (it extends past the display window) [Solution: Limit input to 19 characters] (fixed)
 9) If input is max chars (19) and I click to "+/-" it rounds up the value 
 */
 
@@ -137,6 +137,10 @@ decimal.addEventListener('click', function(event) {
         secondNum += "0" + decimal.innerText;
         display.innerText = secondNum;
     }
+    if (operator == '' && firstNum == result && secondNum == '') {
+        secondNum += "0" + decimal.innerText; 
+        display.innerText = secondNum;
+    }
     //this might not do anything
     else if (operator !== '' && !secondNum.includes(".")) {
         secondNum += decimal.innerText;
@@ -146,15 +150,20 @@ decimal.addEventListener('click', function(event) {
 
 function calc(e) {
     if (e.target.className === "number" || e.target.getElementById === "decimal") {
-        if (operator === '') {
+        if (operator == '' && display.innerText !== result && secondNum == '') {
             firstNum += e.target.innerText;
             display.innerText = firstNum;
+        } else if (operator == '' && secondNum == '' && display.innerText == result) {
+            display.innerText = '';
+            secondNum += e.target.innerText; 
+            display.innerText = secondNum;
         } else {
             display.innerText = '';
             secondNum += e.target.innerText;
             display.innerText = secondNum;
         }
     }
+
 }
 
 //adds event listeners for clicks to all operator buttons
@@ -168,9 +177,9 @@ ops.forEach(op => {
         } 
         
         //essential if statement. Clears operator upon running operator function (if display == sum & firstnum == sum)
-        if (firstNum == result && display.innerText == result) {
-            operator = '';
-        }
+        // if (firstNum == result && display.innerText == result && secondNum == '') {
+        //     operator += '';
+        // }
 
         //updates operator if changed midway through calculation
         if (display.innerText == firstNum) {
@@ -183,14 +192,15 @@ ops.forEach(op => {
         display.innerText = '';
         display.innerText = firstNum;
         }
-        // work in progress to solve secondNum to negative without running operator function
+        // changes secondNum to negative without running operator function
         if (e.target == plusMinusButton && display.innerText == secondNum) {
         secondNum = reverseNum(secondNum);
         console.log(secondNum);
         display.innerText = '';
         display.innerText = secondNum;
         }
-        //percentage if statement to validate % button 
+
+        // if statement to validate % button 
         if (e.target == percentageButton && display.innerText !== "0") {
         newPercent = toPercentage(display.innerText);
         console.log(newPercent);
@@ -198,7 +208,7 @@ ops.forEach(op => {
         display.innerText = newPercent;
         }
 
-        //runs operator function on all operator buttons, changes operator value to operator clicked
+        // runs operator function on all operator buttons, changes operator value to operator clicked
         if (e.target.innerText == "+" && secondNum !== "" || secondNum == ".") {
             result = operate(operator, firstNum, secondNum);
             console.log(secondNum)
@@ -224,6 +234,7 @@ ops.forEach(op => {
             display.innerText = '';
             display.innerText += result;
             operator = "*";
+            operator = '';
             
         }
         if (e.target.innerText == "/" && secondNum !== "" || secondNum == ".") {
@@ -236,16 +247,15 @@ ops.forEach(op => {
         }
         
         //creates functional equals button, runs operator function, displays result 
-        if (e.target.innerText == "=") {
+        if (e.target.innerText == "=" && firstNum !== ''  && secondNum !== '' && operator !== '') {
             result = operate(operator, firstNum, secondNum);
             display.innerText = '';
             display.innerText += result;
-            //clears operator if you hit the '=' button
-            // operator = '';
-            
-            if (secondNum == '' && e.target.innerText == '=') {
-                display.innerText = firstNum;
-            } 
+            operator = '';              
+        } else if (e.target.innerText == '=' && operator == '' && firstNum == result && secondNum !== '') {
+            firstNum = secondNum;
+            secondNum = ''
+            display.innerText = firstNum; 
         } 
         //prevents secondNum from continuously becoming what's clicked (numbers keep getting added to secondNum w/o)
         if (display.innerText == result) {
