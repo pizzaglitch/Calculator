@@ -31,6 +31,7 @@ body {
     border: 3px solid;
     border-color: black;
     font-size: 34px;
+    padding-right: 5px;
 }
 
 #clear, #plusMinus, #percentage, #division {
@@ -70,7 +71,7 @@ body {
     border: 3px solid;
     border-color: black;
     font-weight: bold;
-    font-size: 20px;
+    font-size: 20px;    
 } 
 #equals {
     height: 80px; 
