@@ -8,7 +8,8 @@
 6) changing operator midway through calc doesn't work (fixed)
 7) 9 / 8 = and then .3 = yields 3.75 instead of .3 [If display.innerText == result & a number is selected, no operator is chosen and equals button is pressed, display updates to selected number] (fixed)
 8) you can input numbers longer than the dialog box extends (it extends past the display window) [Solution: Limit input to 19 characters] (fixed)
-9) If input is max chars (19) and I click to "+/-" it rounds up the value 
+9) If input is max chars (19) and I click to "+/-" it rounds up the value  
+10) weird results with percentage button
 */
 
 const display = document.getElementById('display');
@@ -61,8 +62,14 @@ const reverseNum = function reverseNum (firstNum, secondNum) {
 console.log(reverseNum(10));
 
 //to percentage button function
-const toPercentage = function toPercentage (displayResult) {
-    return (displayResult / 100);
+const toPercentage = function toPercentage (firstNum) {
+    if (firstNum.length < 18) {
+        return (firstNum / 100);
+    } else {
+        display.innerText = display.innerText.substring(0, 18); 
+        firstNum = display.innerText; 
+        return (firstNum / 100);
+    }
 }
 
 //operator function for calculator
@@ -94,8 +101,6 @@ function limitCharInDisplay(e) {
     } else if (result > maxChars) {
         display.innerText = display.innerText.substring(0, maxChars);
         result = display.innerText;
-    } else if (display.innerText.length > maxChars) {
-        display.innerText = display.innerText.substring(0, maxChars); 
     }
 }
 
@@ -121,10 +126,7 @@ for (i=0; i < buttons.length; i++) {
         //     }
         // }
     })
-    
-    
 };
-console.log();
 
 // clears display with CE (Clear Entry) button click
 const clearEntry = document.getElementById('clear');
@@ -210,11 +212,20 @@ ops.forEach(op => {
         }
 
         // if statement to validate % button 
+        if (e.target == percentageButton && display.innerText !== "0" && firstNum !== '') {
+        newPercent = toPercentage(display.innerText);
+        console.log(newPercent);
+        display.innerText = '';
+        display.innerText = newPercent;
+        firstNum = display.innerText;
+        }
+         // trying to fix percentage button vvv
         if (e.target == percentageButton && display.innerText !== "0") {
         newPercent = toPercentage(display.innerText);
         console.log(newPercent);
         display.innerText = '';
         display.innerText = newPercent;
+        secondNum = display.innerText;
         }
 
         // runs operator function on all operator buttons, changes operator value to operator clicked
