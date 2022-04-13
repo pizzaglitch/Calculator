@@ -15,7 +15,7 @@ const display = document.getElementById('display');
 const operators = document.querySelectorAll("#plusMinus, #percentage, #addition, #subtraction, #multiplication, #division, #equals");
 const plusMinusButton = document.querySelector("#plusMinus"); 
 const percentageButton = document.querySelector("#percentage");
-const displayResult = display.innerText;    
+
 
 let firstNum = '';
 let secondNum = '';
@@ -65,8 +65,6 @@ const toPercentage = function toPercentage (displayResult) {
     return (displayResult / 100);
 }
 
-
-
 //operator function for calculator
 function operate (operator, firstNum, secondNum) {
     if (operator == "+") {
@@ -83,6 +81,7 @@ function operate (operator, firstNum, secondNum) {
         return divide(firstNum, secondNum);
     }
 };
+
 //limit characters in display to 18
 let maxChars = 18;
 function limitCharInDisplay(e) {
@@ -95,6 +94,8 @@ function limitCharInDisplay(e) {
     } else if (result > maxChars) {
         display.innerText = display.innerText.substring(0, maxChars);
         result = display.innerText;
+    } else if (display.innerText.length > maxChars) {
+        display.innerText = display.innerText.substring(0, maxChars); 
     }
 }
 
@@ -108,7 +109,19 @@ for (i=0; i < buttons.length; i++) {
         } else if (e.target.matches("equals")) {
             operate(operator);
         }
+        //change color of button on click 
+        // let count = 1; 
+        // function setColor(buttons, color) {
+        //     if (count == 0) {
+        //         buttons.style.backgroundColor = "#0EE9F2";
+        //         count = 1;
+        //     } else {
+        //         buttons.style.backgroundColor = "#0EF2A7";
+        //         count = 0;
+        //     }
+        // }
     })
+    
     
 };
 console.log();
@@ -163,7 +176,6 @@ function calc(e) {
             display.innerText = secondNum;
         }
     }
-
 }
 
 //adds event listeners for clicks to all operator buttons
@@ -175,16 +187,12 @@ ops.forEach(op => {
             console.log(firstNum);
             console.log(operator);
         } 
-        
-        //essential if statement. Clears operator upon running operator function (if display == sum & firstnum == sum)
-        // if (firstNum == result && display.innerText == result && secondNum == '') {
-        //     operator += '';
-        // }
 
         //updates operator if changed midway through calculation
         if (display.innerText == firstNum) {
             operator = e.target.innerText;
         }
+
         //plusMinus if statement to validate +/- button and reset operator after executing
         if (e.target == plusMinusButton && display.innerText == firstNum) {
         console.log(firstNum);
@@ -192,6 +200,7 @@ ops.forEach(op => {
         display.innerText = '';
         display.innerText = firstNum;
         }
+
         // changes secondNum to negative without running operator function
         if (e.target == plusMinusButton && display.innerText == secondNum) {
         secondNum = reverseNum(secondNum);
@@ -217,7 +226,6 @@ ops.forEach(op => {
             display.innerText += result;
             operator = '+';
         }
-        
         if (e.target.innerText == "-" && secondNum !== "" || secondNum == ".") {
             result = operate(operator, firstNum, secondNum);
             console.log(secondNum)
@@ -225,7 +233,6 @@ ops.forEach(op => {
             display.innerText = '';
             display.innerText += result;
             operator = "-"; 
-
         }
         if (e.target.innerText == "*" && secondNum !== "" || secondNum == ".") {
             result = operate(operator, firstNum, secondNum);
@@ -234,8 +241,6 @@ ops.forEach(op => {
             display.innerText = '';
             display.innerText += result;
             operator = "*";
-            operator = '';
-            
         }
         if (e.target.innerText == "/" && secondNum !== "" || secondNum == ".") {
             result = operate(operator, firstNum, secondNum);
@@ -257,6 +262,7 @@ ops.forEach(op => {
             secondNum = ''
             display.innerText = firstNum; 
         } 
+        
         //prevents secondNum from continuously becoming what's clicked (numbers keep getting added to secondNum w/o)
         if (display.innerText == result) {
                 firstNum = '';
@@ -264,51 +270,5 @@ ops.forEach(op => {
                 secondNum = '';
                 secondNum += e.target.value; 
         };
-        //runs operate function if target is an operator and an operator is already selected
-        // if (firstNum !== '' && secondNum !== '' && operator.innerText !== '' && e.target.innerText == '+' || e.target.innerText == '-' || e.target.innerText == '*' || e.target.innerText == '/') {
-            
-                  
-        // }
     });
 });
-
-
-// plusMinusButton.addEventListener("click", reverseNum);
-
-// work in progress below
-//working calc function
-// const addition = document.getElementById('addition');
-// const subtraction = document.getElementById('subtraction');
-// const multiplication = document.getElementById('multiplication');
-// const division = document.getElementById('division');
-// const equals = document.getElementById('equals');
-// const percentage = document.getElementById('percentage');
-// const plusMinus = document.getElementById('plusMinus');
-
-// function calc(e) {
-//     const key = e.target; 
-//     const action = key.dataset.action; 
-
-//     if (action === "addition" || 
-//         action === "subtraction"|| 
-//         action === "multiplication" ||
-//         action === "division"
-//     ) {
-//         console.log("operator key");
-//     }
-// }
-
-//my own non functioning addition on 
-// addition.addEventListener('click', function(event) {
-//     x = display.innerText;
-//     y = button
-//     return operate("+",x,y);     
-// });
-
-// adds event listener to all buttons
-// const keys = document.querySelector("#calcContent");
-// keys.addEventListener("click", (e) => {
-//     if (e.target.matches("button")){
-//         calc(e);
-//     }
-//
