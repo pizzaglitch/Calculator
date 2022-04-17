@@ -10,6 +10,8 @@
 8) you can input numbers longer than the dialog box extends (it extends past the display window) [Solution: Limit input to 19 characters] (fixed)
 9) If input is max chars (19) and I click to "+/-" it rounds up the value  
 10) weird results with percentage button
+11) sometimes operate function is ran without an operator, leading to result = undefined. Occurs with periods / not specifying operator
+12) if result is in display, and new number is pressed, it adds it to the display result instead of a new number (for one num) (fixed)
 */
 
 const display = document.getElementById('display');
@@ -114,7 +116,7 @@ for (i=0; i < buttons.length; i++) {
         } else if (e.target.matches("equals")) {
             operate(operator);
         }
-        //change color of button on click 
+        // change color of button on click 
         // let count = 1; 
         // function setColor(buttons, color) {
         //     if (count == 0) {
@@ -277,9 +279,14 @@ ops.forEach(op => {
         //prevents secondNum from continuously becoming what's clicked (numbers keep getting added to secondNum w/o)
         if (display.innerText == result) {
                 firstNum = '';
-                firstNum += result; 
+                firstNum += e.target.value; 
                 secondNum = '';
                 secondNum += e.target.value; 
         };
+
+        //do not run operator function if operator is empty
+        // if (firstNum !== '' && secondNum !== '' && operator == '' && e.target.innerText == '=') {
+        //     return;
+        // }
     });
 });
