@@ -12,7 +12,7 @@
 10) weird results with percentage button
 11) sometimes operate function is ran without an operator, leading to result = undefined. Occurs with periods / not specifying operator
 12) if result is in display, and new number is pressed, it adds it to the display result instead of a new number (for one num) (fixed)
-13) currently 3+3 = undefined. Check back to previous commits to find working version. 
+13) currently 3+3 = undefined. Check back to previous commits to find working version. (fixed 4/18)
 */
 
 const display = document.getElementById('display');
@@ -227,7 +227,7 @@ ops.forEach(op => {
         }
 
         // if statement to validate % button 
-        if (e.target == percentageButton && display.innerText !== "0" && firstNum !== '') {
+        if (e.target == percentageButton && display.innerText !== "0" && secondNum == '') {
         newPercent = toPercentage(display.innerText);
         console.log(newPercent);
         display.innerText = '';
@@ -235,7 +235,7 @@ ops.forEach(op => {
         firstNum = display.innerText;
         }
          // trying to fix percentage button vvv
-        if (e.target == percentageButton && display.innerText !== "0") {
+        if (e.target == percentageButton && display.innerText !== "0" && secondNum !== '') {
         newPercent = toPercentage(display.innerText);
         console.log(newPercent);
         display.innerText = '';
