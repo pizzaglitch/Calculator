@@ -279,7 +279,7 @@ ops.forEach(op => {
         //prevents secondNum from continuously becoming what's clicked (numbers keep getting added to secondNum w/o)
         if (display.innerText == result) {
                 firstNum = '';
-                firstNum += e.target.value; 
+                firstNum = display.innerText; 
                 secondNum = '';
                 secondNum += e.target.value; 
         };
