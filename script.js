@@ -143,6 +143,11 @@ clearEntry.addEventListener('click', function(event) {
 //event listener for decimal click, doesn't allow more than one decimal (THIS WORKS!)
 const decimal = document.getElementById('decimal');
 decimal.addEventListener('click', function(event) {
+    if (display.innerText == result) {
+        firstNum = '';
+        firstNum += '0' + decimal.innerText; 
+        display.innerText = firstNum;
+    }
     if (!firstNum.includes(".") && display.innerText.charAt(0) == "0") {
         firstNum += "0" + decimal.innerText;
         display.innerText = firstNum;
@@ -151,15 +156,22 @@ decimal.addEventListener('click', function(event) {
         firstNum += decimal.innerText;
         display.innerText = firstNum;
     }
+    //adds zero before decimal if pressed at start of secondNum
     if (operator !== '' && firstNum !== '' && secondNum == '') {
         secondNum += "0" + decimal.innerText;
         display.innerText = secondNum;
     }
-    if (operator == '' && firstNum == result && secondNum == '') {
-        secondNum += "0" + decimal.innerText; 
-        display.innerText = secondNum;
+    else if (firstNum == result && secondNum == '' && operator == '' && e.target.innerText == '.') {
+        firstNum = '';
+        firstNum += "0" + decimal.innerText; 
+        display.innerText = firstNum;
     }
-    //this might not do anything
+    // if (display.innerText == result && e.target.innerText == '.') {
+    //     firstNum = '';
+    //     firstNum += "0" + decimal.innerText; 
+    //     display.innerText = firstNum;
+    // }
+    //this allows for decimal to work on secondNum
     else if (operator !== '' && !secondNum.includes(".")) {
         secondNum += decimal.innerText;
          display.innerText = secondNum;
@@ -270,7 +282,7 @@ ops.forEach(op => {
             result = operate(operator, firstNum, secondNum);
             display.innerText = '';
             display.innerText = result;
-            // operator = '';              
+            operator = '';              
         } 
         else if (e.target.innerText == '=' && operator == '' && firstNum == result && secondNum !== '') {
             firstNum = secondNum;
@@ -283,11 +295,7 @@ ops.forEach(op => {
             firstNum = result; 
             secondNum = '';
             secondNum += e.target.value;
-        }
-        
-        //if result is in display window and new number is selected, replaces firstNum with new value
-       
-
+        } 
         //do not run operator function if operator is empty
         // if (firstNum !== '' && secondNum !== '' && operator == '' && e.target.innerText == '=') {
         //     return;
