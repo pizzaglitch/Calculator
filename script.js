@@ -12,6 +12,7 @@
 10) weird results with percentage button
 11) sometimes operate function is ran without an operator, leading to result = undefined. Occurs with periods / not specifying operator
 12) if result is in display, and new number is pressed, it adds it to the display result instead of a new number (for one num) (fixed)
+13) currently 3+3 = undefined. Check back to previous commits to find working version. 
 */
 
 const display = document.getElementById('display');
@@ -28,7 +29,7 @@ let result = operate(operator);
 const add = function add (firstNum, secondNum) {
     return Math.round((parseFloat(firstNum) + parseFloat(secondNum)) * 1000) / 1000;
 };
-console.log(add(2,5));
+console.log(add(3,3));
 
 //subtract 
 const subtract = function subtract (firstNum, secondNum) {
@@ -193,7 +194,7 @@ ops.forEach(op => {
         } 
 
         //updates operator if changed midway through calculation
-        if (display.innerText == firstNum) {
+        if (display.innerText == firstNum && e.target.innerText !== '=') {
             operator = e.target.innerText;
         }
 
@@ -268,22 +269,22 @@ ops.forEach(op => {
         if (e.target.innerText == "=" && firstNum !== ''  && secondNum !== '' && operator !== '') {
             result = operate(operator, firstNum, secondNum);
             display.innerText = '';
-            display.innerText += result;
-            operator = '';              
-        } else if (e.target.innerText == '=' && operator == '' && firstNum == result && secondNum !== '') {
+            display.innerText = result;
+            // operator = '';              
+        } 
+        else if (e.target.innerText == '=' && operator == '' && firstNum == result && secondNum !== '') {
             firstNum = secondNum;
             secondNum = ''
             display.innerText = firstNum; 
         } 
         
         // prevents secondNum from continuously becoming what's clicked (numbers keep getting added to secondNum w/o)
-        if (display.innerText == result) {
-            firstNum = '';
-            firstNum += e.target.value; 
-            firstNum = display.innerText; 
-            secondNum = '';
-            secondNum += e.target.value;
-        }
+        // if (display.innerText == result) {
+        //     firstNum = '';
+        //     firstNum += e.target.value; 
+        //     secondNum = '';
+        //     secondNum += e.target.value;
+        // }
         
         //if result is in display window and new number is selected, replaces firstNum with new value
        
