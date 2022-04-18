@@ -276,18 +276,20 @@ ops.forEach(op => {
             display.innerText = firstNum; 
         } 
         
-        //prevents secondNum from continuously becoming what's clicked (numbers keep getting added to secondNum w/o)
+        // prevents secondNum from continuously becoming what's clicked (numbers keep getting added to secondNum w/o)
         if (display.innerText == result) {
-                firstNum = '';
-                firstNum = display.innerText; 
-                secondNum = '';
-                secondNum += e.target.value; 
-        };
+            firstNum = '';
+            firstNum += e.target.value; 
+            firstNum = display.innerText; 
+            secondNum = '';
+            secondNum += e.target.value;
+        }
         
         //if result is in display window and new number is selected, replaces firstNum with new value
-        if (display.innerText == result && firstNum == result) {
+       if (display.innerText == result && e.target.innerText !== '+') {
             firstNum = '';
-            firstNum = e.target.value; 
+            secondNum = '';
+            operator = '';
         }
 
         //do not run operator function if operator is empty
