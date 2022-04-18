@@ -283,6 +283,12 @@ ops.forEach(op => {
                 secondNum = '';
                 secondNum += e.target.value; 
         };
+        
+        //if result is in display window and new number is selected, replaces firstNum with new value
+        if (display.innerText == result && firstNum == result) {
+            firstNum = '';
+            firstNum = e.target.value; 
+        }
 
         //do not run operator function if operator is empty
         // if (firstNum !== '' && secondNum !== '' && operator == '' && e.target.innerText == '=') {
